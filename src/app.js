@@ -29,47 +29,51 @@ function getInitialState({ players, size }) {
 }
 
 /* Game */
-function initialize() {
-  window.__STATE__ = new State(getInitialState({
+function GameModule(size) {
+  const state = new State(getInitialState({
     players: getPlayerNames(),
-    size: DEFAULT_GAME_SIZE
+    size
   }), console.log);
 
-  createGameBoard(__STATE__.getState().board);
+  createGameBoard(state);
 }
 
-function createGameBoard(boardValues) {
-  const board = new DocumentFragment();
+function initialize() {
+  new GameModule(DEFAULT_GAME_SIZE);
+}
 
-  boardValues.forEach(function(cell, i) {
+function updateBoard(board, index, value) {
+  return [
+    ...board.slice(0, index),
+    { ...board[index], value },
+    ...board.slice(index + 1, board.length)
+  ];
+}
+
+function createGameBoard(state) {
+  const boardFragment = new DocumentFragment();
+
+  state.getState().board.forEach(function(cell, i) {
     const button = document.createElement('button');
 
     button.addEventListener('click', function() {
       if (!this.textContent) {
-        const currentState = __STATE__.getState();
+        const value = state.getState().currentTurn ? 'X' : 'O';
+        
+        this.innerText = value;
 
-        this.innerText = currentState.currentTurn ? 'X' : 'O';
-
-        __STATE__.setState(state => {
+        state.setState(state => {
           return ({
           ...state,
-          currentTurn: state.currentTurn ? 0 : 1
+          board: updateBoard(state.board, i, value),
+          currentTurn: Number(!state.currentTurn)
         })});
       }
     });
-    board.appendChild(button);
+    boardFragment.appendChild(button);
 
     cell.ref = button;
   });
 
-  document.getElementById(GAME_CONTAINER).appendChild(board);
-}
-
-function viewManager(state, action) {
-  switch (action.type) {
-    case 'INITIALIZE':
-        createGameBoard(state.getState().board);
-      break;
-    default:
-  }
+  document.getElementById(GAME_CONTAINER).appendChild(boardFragment);
 }
