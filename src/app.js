@@ -1,94 +1,75 @@
-(function() {
-  'use strict';
+'use strict';
 
-  /* Selectors */
-  const GAME_CONTAINER = 'GameBoard';
-  const PLAYER_ONE_INPUT = 'Player1NameInput';
-  const PLAYER_TWO_INPUT = 'Player2NameInput';
-  const PlAYER_ONE_LABEL = `[for=${PLAYER_ONE_INPUT}]`;
-  const PLAYER_TWO_LABEL = `[for=${PLAYER_TWO_INPUT}]`;
-  const START_BUTTON = 'StartGame';
-
-  /* Constants */
-  const COMPUTER_PLAYER_NAME = 'Computer';
-  const DEFAULT_GAME_SIZE = 3;
-
-  const state = {
-    currentTurn: 0,
-    players: [null, null]
+/* Business logic */
+function getDefaultCellShape() {
+  return {
+    ref: null,
+    value: null
   };
+}
 
-  function getTextFromDOM(selector) {
-    return document.querySelector(selector).textContent;
-  }
+function createBoardState(size) {
+  return new Array(size).fill(getDefaultCellShape());
+}
 
-  function getPlayerNames() {
-    return [PlAYER_ONE_LABEL, PLAYER_TWO_LABEL].map(getTextFromDOM);
-  }
+function getInitialTurn() {
+  return Math.round(Math.random());
+}
 
-  function setPlayerName(name) {
-    return name || COMPUTER_PLAYER_NAME;
-  }
+function setPlayerName(name) {
+  return name || COMPUTER_PLAYER_NAME;
+}
 
-  function getInitialState(players) {
-    return {
-      currentTurn: 0,
-      players: players.map(setPlayerName)
-    };
-  }
+function getInitialState({ players, size }) {
+  return {
+    board: createBoardState(size * size),
+    currentTurn: getInitialTurn(),
+    players: players.map(setPlayerName),
+  };
+}
 
-  class State {
-    constructor(initialState, subscriber) {
-      this._state = initialState || {};
-      this._subscriber = subscriber || null;
-    }
+/* Game */
+function initialize() {
+  window.__STATE__ = new State(getInitialState({
+    players: getPlayerNames(),
+    size: DEFAULT_GAME_SIZE
+  }), console.log);
 
-    setState(stateSetter) {
-      this._state = stateSetter(this._state);
+  createGameBoard(__STATE__.getState().board);
+}
 
-      this._subscriber && this._subscriber(this._state);
-    }
-  }
+function createGameBoard(boardValues) {
+  const board = new DocumentFragment();
 
-  function initialize() {
-    const state = new State(getInitialState(getPlayerNames()));
+  boardValues.forEach(function(cell, i) {
+    const button = document.createElement('button');
 
-    console.log(state);
-  }
+    button.addEventListener('click', function() {
+      if (!this.textContent) {
+        const currentState = __STATE__.getState();
 
-  function createBoard(spaces = DEFAULT_GAME_SIZE) {
-    const fragment = new DocumentFragment();
-    
+        this.innerText = currentState.currentTurn ? 'X' : 'O';
 
-  }
-
-  function start() {
-    [
-      PlAYER_ONE_LABEL,
-      PLAYER_TWO_LABEL
-    ].forEach((selector, i) => {
-      const el = document.querySelector(selector);
-
-      state.players[i] = el.textContent;
-
-      el.setAttribute('disabled', true);
+        __STATE__.setState(state => {
+          return ({
+          ...state,
+          currentTurn: state.currentTurn ? 0 : 1
+        })});
+      }
     });
-  }
+    board.appendChild(button);
 
-  function updateName(evt) {
-    document
-      .querySelector(`[for=${evt.target.id}]`)
-      .innerHTML = evt.target.value;
-  }
+    cell.ref = button;
+  });
 
-  /* DOM */
-  document
-    .getElementById(PLAYER_ONE_INPUT)
-    .addEventListener('blur', updateName);
-  document
-    .getElementById(PLAYER_TWO_INPUT)
-    .addEventListener('blur', updateName);
-  document
-    .getElementById(START_BUTTON)
-    .addEventListener('click', initialize);
-})();
+  document.getElementById(GAME_CONTAINER).appendChild(board);
+}
+
+function viewManager(state, action) {
+  switch (action.type) {
+    case 'INITIALIZE':
+        createGameBoard(state.getState().board);
+      break;
+    default:
+  }
+}
