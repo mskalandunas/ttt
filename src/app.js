@@ -50,6 +50,19 @@ function validate(state) {
     }
   }
 
+  // check rows
+  for (let i = 0; i < board.length; i += size) {
+    const rowSet = new Set([board[i]]);
+    
+    for (let j = 0; j < size; j++) {
+      rowSet.add(board[j]);
+    }
+    
+    if (rowSet.size === 1) {
+      return true;
+    }
+  }
+
   return  false;
 }
 
