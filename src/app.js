@@ -34,9 +34,7 @@ function initialize() {
   new GameModule(DEFAULT_GAME_SIZE);
 }
 
-function validate(state) {
-  const { board, size } = state;
-
+function validate(board, size) {
   // check columns
   for (let i = 0; i < size; i++) {
     const columnSet = new Set([board[i]]);
@@ -57,7 +55,7 @@ function validate(state) {
     for (let j = 0; j < size; j++) {
       rowSet.add(board[j]);
     }
-    
+
     if (rowSet.size === 1) {
       return true;
     }
