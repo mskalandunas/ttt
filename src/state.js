@@ -1,9 +1,8 @@
 class State {
   constructor(initialState, subscriber) {
     this._subscriber = subscriber || null;
-    this._state = this.setState(initialState || {});
-
-    this.getState = this.getState.bind(this);
+    
+    this.setState(initialState || {});
   }
 
   getState() {
