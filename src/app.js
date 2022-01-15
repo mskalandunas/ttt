@@ -42,7 +42,7 @@ function updateBoard(board, index, currentTurn) {
   ];
 }
 
-function updateState(state) {
+function updateView(state) {
   const boardFragment = new DocumentFragment();
 
   state.getState().board.forEach(function(value, i) {

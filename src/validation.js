@@ -25,5 +25,13 @@ function validate(board, size) {
     }
   }
 
-  return  false;
+  const topDiagonal = new Set();
+  const bottomDiagonal = new Set();
+
+  for (let i = 0, j = 0; i < board.length; i += size, j++) {
+    topDiagonal.add(board[i + j]);
+    bottomDiagonal.add(board[board.length - (size + i - j)]);
+  }
+
+  return topDiagonal.size === 1 || bottomDiagonal.size === 1;
 }
