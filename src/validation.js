@@ -1,6 +1,4 @@
-function validate(state) {
-  const { board, size } = state;
-
+function validate(board, size) {
   // check columns
   for (let i = 0; i < size; i++) {
     const columnSet = new Set([board[i]]);
