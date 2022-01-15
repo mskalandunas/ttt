@@ -34,6 +34,25 @@ function initialize() {
   new GameModule(DEFAULT_GAME_SIZE);
 }
 
+function validate(state) {
+  const { board, size } = state;
+
+  // check columns
+  for (let i = 0; i < size; i++) {
+    const columnSet = new Set([board[i]]);
+
+    for (let j = 0; j < board.length; j += size) {
+      columnSet.add(board[j]);
+    }
+
+    if (columnSet.size === 1) {
+      return true;
+    }
+  }
+
+  return  false;
+}
+
 function updateBoard(board, index, currentTurn) {
   return [
     ...board.slice(0, index),
@@ -42,7 +61,7 @@ function updateBoard(board, index, currentTurn) {
   ];
 }
 
-function updateView(state) {
+function updateState(state) {
   const boardFragment = new DocumentFragment();
 
   state.getState().board.forEach(function(value, i) {
