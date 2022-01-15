@@ -7,3 +7,9 @@ function composed(composedFn, fn) {
 function compose(...fns) {
   return fns.reduce(composed);
 }
+
+function removeAllChildNodes(parent) {
+  while (parent.firstChild) {
+    parent.removeChild(parent.firstChild);
+  }
+}

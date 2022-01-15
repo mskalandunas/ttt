@@ -1,15 +1,8 @@
 'use strict';
 
 /* Business logic */
-function getDefaultCellShape() {
-  return {
-    ref: null,
-    value: null
-  };
-}
-
 function createBoardState(size) {
-  return new Array(size).fill(getDefaultCellShape());
+  return new Array(size).fill(null);
 }
 
 function getInitialTurn() {
@@ -30,50 +23,49 @@ function getInitialState({ players, size }) {
 
 /* Game */
 function GameModule(size) {
-  const state = new State(getInitialState({
+  new State(getInitialState({
+    currentTurn: null,
     players: getPlayerNames(),
     size
-  }), console.log);
-
-  createGameBoard(state);
+  }), updateView);
 }
 
 function initialize() {
   new GameModule(DEFAULT_GAME_SIZE);
 }
 
-function updateBoard(board, index, value) {
+function updateBoard(board, index, currentTurn) {
   return [
     ...board.slice(0, index),
-    { ...board[index], value },
+    currentTurn ? 'X' : 'O',
     ...board.slice(index + 1, board.length)
   ];
 }
 
-function createGameBoard(state) {
+function updateView(state) {
   const boardFragment = new DocumentFragment();
 
-  state.getState().board.forEach(function(cell, i) {
+  state.getState().board.forEach(function(value, i) {
     const button = document.createElement('button');
 
-    button.addEventListener('click', function() {
-      if (!this.textContent) {
-        const value = state.getState().currentTurn ? 'X' : 'O';
-        
-        this.innerText = value;
+    button.innerHTML = value;
 
-        state.setState(state => {
+    button.addEventListener('click', function() {
+      if (!value) {
+        state.setState(currentState => {
           return ({
-          ...state,
-          board: updateBoard(state.board, i, value),
-          currentTurn: Number(!state.currentTurn)
+          ...currentState,
+          board: updateBoard(currentState.board, i, currentState.currentTurn),
+          currentTurn: Number(!currentState.currentTurn)
         })});
       }
     });
     boardFragment.appendChild(button);
-
-    cell.ref = button;
   });
 
-  document.getElementById(GAME_CONTAINER).appendChild(boardFragment);
+  const containerRef = document.getElementById(GAME_CONTAINER)
+
+  removeAllChildNodes(containerRef);
+
+  containerRef.appendChild(boardFragment);
 }

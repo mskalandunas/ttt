@@ -15,7 +15,7 @@ class State {
       ? updater(this._state) 
       : updater;
 
-    this._subscriber && this._subscriber(this._state);
+    this._subscriber && this._subscriber(this);
 
     return this._state;
   }
