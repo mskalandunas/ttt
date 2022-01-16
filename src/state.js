@@ -1,9 +1,9 @@
 export class State {
-  #state = null; 
+  #state = null;
 
   constructor(initialState, subscriber) {
     this._subscriber = subscriber || null;
-    
+
     this.setState(initialState || {});
   }
 
@@ -12,9 +12,8 @@ export class State {
   }
 
   setState(updater) {
-    this.#state = typeof updater === 'function' 
-      ? updater(this.#state) 
-      : updater;
+    this.#state =
+      typeof updater === "function" ? updater(this.#state) : updater;
 
     this._subscriber && this._subscriber(this);
 

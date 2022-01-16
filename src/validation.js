@@ -15,7 +15,7 @@ export const validate = (board, size) => {
   // check rows
   for (let i = 0; i < board.length; i += size) {
     const rowSet = new Set([board[i]]);
-    
+
     for (let j = 0; j < size; j++) {
       rowSet.add(board[j]);
     }
@@ -35,9 +35,8 @@ export const validate = (board, size) => {
 
   if (topDiagonal.size === 1 || bottomDiagonal.size === 1) {
     return !!(
-      [...topDiagonal].filter(Boolean).length || [
-        ...bottomDiagonal
-      ].filter(Boolean).length
+      [...topDiagonal].filter(Boolean).length ||
+      [...bottomDiagonal].filter(Boolean).length
     );
   }
 

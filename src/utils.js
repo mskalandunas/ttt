@@ -1,5 +1,5 @@
-export const removeAllChildNodes = parent => {
+export const removeAllChildNodes = (parent) => {
   while (parent.firstChild) {
     parent.removeChild(parent.firstChild);
   }
-}
+};

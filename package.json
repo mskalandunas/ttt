@@ -4,6 +4,7 @@
   "description": "A vanilla tic-tac-toe implementation",
   "main": "index.js",
   "scripts": {
+    "format:all": "prettier --write .",
     "start": "parcel src/index.html",
     "test": "jest"
   },
@@ -21,6 +22,7 @@
     "@babel/preset-env": "^7.16.8",
     "babel-jest": "^27.4.6",
     "jest": "^27.4.7",
-    "parcel": "^2.2.0"
+    "parcel": "^2.2.0",
+    "prettier": "^2.5.1"
   }
 }
