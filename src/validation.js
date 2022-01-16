@@ -1,4 +1,4 @@
-export function validate(board, size) {
+export const validate = (board, size) => {
   // check columns
   for (let i = 0; i < size; i++) {
     const columnSet = new Set([board[i]]);

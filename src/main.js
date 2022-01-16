@@ -4,11 +4,11 @@ import {
   PLAYER_TWO_INPUT,
   START_BUTTON
 } from './constants';
-import { GameModule } from './app';
+import { createGame } from './app';
 import { updateName } from './view';
 
-function initialize() {
-  new GameModule(DEFAULT_GAME_SIZE);
+const initialize = () => {
+  createGame(DEFAULT_GAME_SIZE);
 }
 
 document

@@ -7,53 +7,42 @@ import {
 import { removeAllChildNodes } from './utils';
 import { State } from './state';
 
-function getTextFromDOM(selector) {
-  return document.querySelector(selector).textContent;
-}
+const getTextFromDOM = selector =>
+  document.querySelector(selector).textContent;
 
-function getPlayerNames() {
-  return [PLAYER_ONE_LABEL, PLAYER_TWO_LABEL].map(getTextFromDOM);
-}
+const getPlayerNames = () =>
+  [PLAYER_ONE_LABEL, PLAYER_TWO_LABEL].map(getTextFromDOM);
 
 /* Business logic */
-function createBoardState(size) {
-  return new Array(size).fill(null);
-}
+const createBoardState = size =>
+  new Array(size).fill(null);
 
-function getInitialTurn() {
-  return Math.round(Math.random());
-}
+const getInitialTurn = () => Math.round(Math.random());
 
-function setPlayerName(name) {
-  return name || COMPUTER_PLAYER_NAME;
-}
+const setPlayerName = name => name || COMPUTER_PLAYER_NAME;
 
-function getInitialState({ players, size }) {
-  return {
-    board: createBoardState(size * size),
-    currentTurn: getInitialTurn(),
-    players: players.map(setPlayerName),
-  };
-}
+const getInitialState = ({ players, size }) => ({
+  board: createBoardState(size * size),
+  currentTurn: getInitialTurn(),
+  players: players.map(setPlayerName),
+});
 
 /* Game */
-export function GameModule(size) {
+export const createGame = size => {
   new State(getInitialState({
     currentTurn: null,
     players: getPlayerNames(),
     size
   }), updateView);
-}
+};
 
-function updateBoard(board, index, currentTurn) {
-  return [
-    ...board.slice(0, index),
-    currentTurn ? 'X' : 'O',
-    ...board.slice(index + 1, board.length)
-  ];
-}
+const updateBoard = (board, index, currentTurn) => [
+  ...board.slice(0, index),
+  currentTurn ? 'X' : 'O',
+  ...board.slice(index + 1, board.length)
+];
 
-function updateView(state) {
+const updateView = state => {
   const boardFragment = new DocumentFragment();
 
   state.getState().board.forEach(function(value, i) {
