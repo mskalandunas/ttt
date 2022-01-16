@@ -4,11 +4,11 @@ import {
   PLAYER_TWO_INPUT,
   START_BUTTON,
 } from "./constants";
-import { createGame } from "./app";
-import { updateName } from "./view";
+import { createGame } from "./game";
+import { updateName, updateView } from "./view";
 
 const initialize = () => {
-  createGame(DEFAULT_GAME_SIZE);
+  createGame(DEFAULT_GAME_SIZE, updateView);
 };
 
 document.getElementById(START_BUTTON).addEventListener("click", initialize);
