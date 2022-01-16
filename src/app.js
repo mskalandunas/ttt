@@ -1,4 +1,19 @@
-'use strict';
+import {
+  COMPUTER_PLAYER_NAME,
+  GAME_CONTAINER,
+  PLAYER_ONE_LABEL,
+  PLAYER_TWO_LABEL
+} from './constants';
+import { removeAllChildNodes } from './utils';
+import { State } from './state';
+
+function getTextFromDOM(selector) {
+  return document.querySelector(selector).textContent;
+}
+
+function getPlayerNames() {
+  return [PLAYER_ONE_LABEL, PLAYER_TWO_LABEL].map(getTextFromDOM);
+}
 
 /* Business logic */
 function createBoardState(size) {
@@ -22,16 +37,12 @@ function getInitialState({ players, size }) {
 }
 
 /* Game */
-function GameModule(size) {
+export function GameModule(size) {
   new State(getInitialState({
     currentTurn: null,
     players: getPlayerNames(),
     size
   }), updateView);
-}
-
-function initialize() {
-  new GameModule(DEFAULT_GAME_SIZE);
 }
 
 function updateBoard(board, index, currentTurn) {

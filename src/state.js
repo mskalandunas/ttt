@@ -1,4 +1,4 @@
-class State {
+export class State {
   constructor(initialState, subscriber) {
     this._subscriber = subscriber || null;
     

@@ -1,0 +1,22 @@
+{
+  "name": "ttt",
+  "version": "0.0.1",
+  "description": "A vanilla tic-tac-toe implementation",
+  "main": "index.js",
+  "scripts": {
+    "start": "parcel src/index.html"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mskalandunas/ttt.git"
+  },
+  "author": "Mike Skalandunas <mskalandunas@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/mskalandunas/ttt/issues"
+  },
+  "homepage": "https://github.com/mskalandunas/ttt#readme",
+  "devDependencies": {
+    "parcel": "^2.2.0"
+  }
+}
