@@ -6,6 +6,7 @@ import {
 } from './constants';
 import { removeAllChildNodes } from './utils';
 import { State } from './state';
+import { validate } from './validation';
 
 const getTextFromDOM = selector =>
   document.querySelector(selector).textContent;
@@ -25,6 +26,8 @@ const getInitialState = ({ players, size }) => ({
   board: createBoardState(size * size),
   currentTurn: getInitialTurn(),
   players: players.map(setPlayerName),
+  size,
+  turn: 0
 });
 
 /* Game */
@@ -47,8 +50,21 @@ const updateView = state => {
 
   state.getState().board.forEach(function(value, i) {
     const button = document.createElement('button');
+    const { board, currentTurn, size, turn } = state.getState();
 
     button.innerHTML = value;
+    
+    if (turn > (size * 2) - 1) {
+      if (validate(board, size)) {
+        alert(`${currentTurn ? 'X' : 'O'} wins!`);
+        return;
+      }
+  
+      if (board.filter(Boolean).length === size * size) {
+        alert('DRAW');
+        return;
+      }
+    }
 
     button.addEventListener('click', function() {
       if (!value) {
@@ -56,7 +72,8 @@ const updateView = state => {
           return ({
           ...currentState,
           board: updateBoard(currentState.board, i, currentState.currentTurn),
-          currentTurn: Number(!currentState.currentTurn)
+          currentTurn: Number(!currentState.currentTurn),
+          turn: currentState.turn += 1
         })});
       }
     });
