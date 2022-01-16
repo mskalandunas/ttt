@@ -1,3 +1,6 @@
-export { getPlayerNames,
+export {
+  getPlayerNames,
+  setupInitializer,
   updateName,
-  updateView } from './view';
+  updateView,
+} from "./view";

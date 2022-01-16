@@ -1,7 +1,10 @@
 import {
   GAME_CONTAINER,
+  PLAYER_ONE_INPUT,
+  PLAYER_TWO_INPUT,
   PLAYER_ONE_LABEL,
   PLAYER_TWO_LABEL,
+  START_BUTTON,
 } from "./constants";
 import { getTextFromDOM, removeAllChildNodes } from "./dom";
 import { validate } from "../game/validation";
@@ -10,8 +13,21 @@ import { updateState } from "../game";
 export const getPlayerNames = () =>
   [PLAYER_ONE_LABEL, PLAYER_TWO_LABEL].map(getTextFromDOM);
 
-export const updateName = (evt) => {
+const updateName = (evt) => {
   document.querySelector(`[for=${evt.target.id}]`).innerHTML = evt.target.value;
+};
+
+export const setupListeners = () => {
+  document
+    .getElementById(PLAYER_ONE_INPUT)
+    .addEventListener("blur", updateName);
+  document
+    .getElementById(PLAYER_TWO_INPUT)
+    .addEventListener("blur", updateName);
+};
+
+export const setupInitializer = (initializer) => {
+  document.getElementById(START_BUTTON).addEventListener("click", initializer);
 };
 
 // TODO: don't pass in state class here, just current state
