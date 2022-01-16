@@ -4,7 +4,8 @@
   "description": "A vanilla tic-tac-toe implementation",
   "main": "index.js",
   "scripts": {
-    "start": "parcel src/index.html"
+    "start": "parcel src/index.html",
+    "test": "jest"
   },
   "repository": {
     "type": "git",
@@ -17,6 +18,9 @@
   },
   "homepage": "https://github.com/mskalandunas/ttt#readme",
   "devDependencies": {
+    "@babel/preset-env": "^7.16.8",
+    "babel-jest": "^27.4.6",
+    "jest": "^27.4.7",
     "parcel": "^2.2.0"
   }
 }

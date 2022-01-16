@@ -8,7 +8,7 @@ export const validate = (board, size) => {
     }
 
     if (columnSet.size === 1) {
-      return true;
+      return !![...columnSet].filter(Boolean).length;
     }
   }
 
@@ -19,9 +19,9 @@ export const validate = (board, size) => {
     for (let j = 0; j < size; j++) {
       rowSet.add(board[j]);
     }
-    
+
     if (rowSet.size === 1) {
-      return true;
+      return !![...rowSet].filter(Boolean).length;
     }
   }
 
@@ -33,5 +33,13 @@ export const validate = (board, size) => {
     bottomDiagonal.add(board[board.length - (size + i - j)]);
   }
 
-  return topDiagonal.size === 1 || bottomDiagonal.size === 1;
-}
+  if (topDiagonal.size === 1 || bottomDiagonal.size === 1) {
+    return !!(
+      [...topDiagonal].filter(Boolean).length || [
+        ...bottomDiagonal
+      ].filter(Boolean).length
+    );
+  }
+
+  return false;
+};

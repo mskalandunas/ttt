@@ -53,7 +53,7 @@ const updateView = state => {
     const { board, currentTurn, size, turn } = state.getState();
 
     button.innerHTML = value;
-    
+
     if (turn > (size * 2) - 1) {
       if (validate(board, size)) {
         alert(`${currentTurn ? 'X' : 'O'} wins!`);
