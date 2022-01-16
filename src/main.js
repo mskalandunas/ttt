@@ -1,14 +1,9 @@
-import {
-  DEFAULT_GAME_SIZE,
-  PLAYER_ONE_INPUT,
-  PLAYER_TWO_INPUT,
-  START_BUTTON,
-} from "./constants";
+import { PLAYER_ONE_INPUT, PLAYER_TWO_INPUT, START_BUTTON } from "./constants";
 import { createGame } from "./game";
-import { updateName, updateView } from "./view";
+import { getPlayerNames, updateName, updateView } from "./view";
 
 const initialize = () => {
-  createGame(DEFAULT_GAME_SIZE, updateView);
+  createGame(getPlayerNames(), updateView);
 };
 
 document.getElementById(START_BUTTON).addEventListener("click", initialize);

@@ -1,12 +1,5 @@
-import {
-  COMPUTER_PLAYER_NAME,
-  PLAYER_ONE_LABEL,
-  PLAYER_TWO_LABEL,
-} from "../constants";
-import {
-  createArrayWithSize,
-  getTextFromDOM,
-} from "../utils";
+import { COMPUTER_PLAYER_NAME } from "./constants";
+import { createArrayWithSize } from "../utils";
 
 const updateBoard = (board, index, currentTurn) => [
   ...board.slice(0, index),
@@ -20,11 +13,8 @@ export const updateState = (index) => {
     board: updateBoard(state.board, index, state.currentTurn),
     currentTurn: Number(!state.currentTurn),
     turn: (state.turn += 1),
-  })
-}
-
-export const getPlayerNames = () =>
-  [PLAYER_ONE_LABEL, PLAYER_TWO_LABEL].map(getTextFromDOM);
+  });
+};
 
 const getInitialTurn = () => Math.round(Math.random());
 

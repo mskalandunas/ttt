@@ -1,6 +1,6 @@
 export class State {
   #state;
-  
+
   #subscriber;
 
   constructor(initialState, subscriber) {

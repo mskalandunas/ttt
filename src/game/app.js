@@ -1,13 +1,12 @@
-import {
-  State
-} from "../utils";
-import { getInitialState, getPlayerNames } from './state-management';
+import { DEFAULT_GAME_SIZE } from "./constants";
+import { State } from "../utils";
+import { getInitialState } from "./state-management";
 
-export const createGame = (size, viewUpdater) => {
+export const createGame = (players, viewUpdater, size = DEFAULT_GAME_SIZE) => {
   new State(
     getInitialState({
       currentTurn: null,
-      players: getPlayerNames(),
+      players,
       size,
     }),
     viewUpdater

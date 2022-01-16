@@ -1,16 +1,20 @@
 import {
   GAME_CONTAINER,
+  PLAYER_ONE_LABEL,
+  PLAYER_TWO_LABEL,
 } from "./constants";
-import {
-  removeAllChildNodes,
-} from "./utils";
-import { validate } from "./validation";
-import { updateState } from './game';
+import { getTextFromDOM, removeAllChildNodes } from "./dom";
+import { validate } from "../game/validation";
+import { updateState } from "../game";
+
+export const getPlayerNames = () =>
+  [PLAYER_ONE_LABEL, PLAYER_TWO_LABEL].map(getTextFromDOM);
 
 export const updateName = (evt) => {
   document.querySelector(`[for=${evt.target.id}]`).innerHTML = evt.target.value;
 };
 
+// TODO: don't pass in state class here, just current state
 export const updateView = (state) => {
   const boardFragment = new DocumentFragment();
 
